@@ -33,3 +33,6 @@ frontend/vite.config.js.timestamp-*.mjs
 
 # Vite cache
 .vite/
+
+# Test / sample projects
+test_ios_project/
