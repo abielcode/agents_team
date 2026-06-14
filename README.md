@@ -11,7 +11,7 @@ Built as an open demonstration that the way we build software has changed. This 
 ```
 Human (Product Owner)
   ↓  feature description (plain English)
-Orchestrator  (Claude Haiku — Anthropic)    PRD · backlog · sprint plan · sprint review
+Orchestrator  (cloud LLM — haiku tier)      PRD · backlog · sprint plan · sprint review
   ↓  sprint plan
 Architect     (qwen2.5-coder:14b — Ollama)  architecture document per sprint
   ↓  per user story
@@ -24,7 +24,7 @@ Verifier      (qwen2.5-coder:7b  — Ollama)  build · lint · test → pass / f
 Coder  ←  targeted error report
 ```
 
-Only the **Orchestrator** uses a paid cloud model (Anthropic Claude Haiku, ~$0.02–0.08 per sprint). Every other agent runs locally on Ollama — **free**.
+Only the **Orchestrator** uses a paid cloud model (haiku-tier, ~$0.02–0.08 per sprint). Every other agent runs locally on Ollama — **free**.
 
 ---
 
@@ -35,7 +35,7 @@ Only the **Orchestrator** uses a paid cloud model (Anthropic Claude Haiku, ~$0.0
 | Python 3.11+ | [python.org](https://www.python.org/downloads/) |
 | Node.js 18+ | Required for the web UI |
 | [Ollama](https://ollama.ai) | Local LLM runtime |
-| Anthropic API key | Only used by the Orchestrator |
+| Cloud LLM API key | Only used by the Orchestrator |
 
 ### Pull the required Ollama models
 
@@ -70,16 +70,16 @@ source .venv/bin/activate        # macOS / Linux
 pip install -r requirements.txt
 ```
 
-### 3. Set your Anthropic API key
+### 3. Set your cloud LLM API key
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
+export ANTHROPIC_API_KEY=your-api-key-here
 ```
 
 Or create a `.env` file in the project root:
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...
+ANTHROPIC_API_KEY=your-api-key-here
 ```
 
 ### 4. (Optional) Adjust team configuration
@@ -211,17 +211,17 @@ The Sprint Board streams agent output in real time over WebSocket (`/ws/sprint/{
 
 | Agent | Provider | Approximate Cost |
 |---|---|---|
-| Orchestrator | Anthropic Claude Haiku | ~$0.02–0.08 per sprint |
+| Orchestrator | Cloud LLM (haiku tier) | ~$0.02–0.08 per sprint |
 | Architect | Ollama (local) | Free |
 | Coder | Ollama (local) | Free |
 | Test Writer | Ollama (local) | Free |
 | Verifier | Ollama (local) | Free |
 
 Cost guards (configurable in `team_config.json`):
-- **Warn** at $0.10 Claude spend per sprint
-- **Hard stop** at $0.50 Claude spend per sprint
+- **Warn** at $0.10 cloud LLM spend per sprint
+- **Hard stop** at $0.50 cloud LLM spend per sprint
 
-Anthropic prompt caching is enabled on the Orchestrator to further reduce token costs on repeated calls.
+Prompt caching is enabled on the Orchestrator to further reduce token costs on repeated calls.
 
 ---
 
@@ -235,7 +235,7 @@ agents_team/
 │   ├── agents/                   5 agents: orchestrator, architect, coder, test_writer, verifier
 │   ├── api/                      FastAPI app + REST routes + WebSocket
 │   │   └── routes/               projects, prd, backlog, sprints, agents, costs
-│   ├── core/                     gateway (Anthropic+Ollama), pipeline, cost_tracker, reporter
+│   ├── core/                     gateway (cloud+Ollama), pipeline, cost_tracker, reporter
 │   ├── db/                       SQLite models (SQLAlchemy + aiosqlite)
 │   ├── platforms/                ios, android, django + build output parsers
 │   ├── tools/                    codebase_scanner, git_guard, xcodegen_sync
