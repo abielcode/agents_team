@@ -1,0 +1,78 @@
+{
+  "agents": {
+    "orchestrator": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "max_tokens": 1500,
+      "system_prompt_cached": true,
+      "roles": ["prd_refinement", "backlog_creation", "sprint_planning", "sprint_review"],
+      "output_format": "json"
+    },
+    "architect": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:14b",
+      "max_tokens": 3000,
+      "platform_context": true,
+      "roles": ["sprint_review", "architecture_doc"],
+      "output_format": "json"
+    },
+    "coder": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "max_tokens": 8000,
+      "platform_context": true,
+      "roles": ["story_implementation"],
+      "output_format": "delimited"
+    },
+    "test_writer": {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "max_tokens": 4000,
+      "platform_context": true,
+      "roles": ["test_generation"],
+      "output_format": "delimited"
+    },
+    "verifier": {
+      "provider": "ollama",
+      "model": "qwen2.5-coder:7b",
+      "max_tokens": 1000,
+      "platform_context": false,
+      "roles": ["build_lint_test"],
+      "output_format": "json"
+    }
+  },
+  "providers": {
+    "anthropic": {
+      "base_url": null,
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "pricing": {
+        "claude-haiku-4-5-20251001": {
+          "input_per_1m": 0.80,
+          "output_per_1m": 4.00,
+          "cache_write_per_1m": 1.00,
+          "cache_read_per_1m": 0.08
+        }
+      }
+    },
+    "ollama": {
+      "base_url": "http://localhost:11434/v1",
+      "api_key": "ollama",
+      "pricing": {
+        "default": {
+          "input_per_1m": 0.0,
+          "output_per_1m": 0.0
+        }
+      }
+    }
+  },
+  "cost_guard": {
+    "max_claude_tokens_per_sprint": 100000,
+    "max_claude_tokens_per_story": 20000,
+    "warn_usd_per_sprint": 0.50,
+    "hard_stop_usd_per_sprint": 2.00
+  },
+  "pipeline": {
+    "max_retries_per_story": 3,
+    "phases": ["INIT", "PLANNING", "ARCHITECTURE", "CODING", "TESTING", "VERIFYING", "DONE"]
+  }
+}

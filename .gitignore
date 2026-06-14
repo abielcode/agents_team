@@ -1,0 +1,35 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+*.env.local
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/vite.config.js.timestamp-*.mjs
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Vite cache
+.vite/
